@@ -1,6 +1,5 @@
-
 import { CodeChefStat, CodeforcesStat, LeetCodeStat } from "@/types";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/utils/toast";
 
 // Mock API responses for demonstration
 const mockCodeforces: CodeforcesStat = {

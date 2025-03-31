@@ -5,7 +5,7 @@ import { PlatformCard } from "@/components/platform-card";
 import { StatsChart } from "@/components/stats-chart";
 import { SummaryCard } from "@/components/summary-card";
 import { fetchCodeChefStats, fetchCodeforcesStats, fetchLeetCodeStats } from "@/utils/api";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/utils/toast";
 import { Navbar } from "@/components/navbar";
 
 const Index = () => {
