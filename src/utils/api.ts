@@ -1,3 +1,4 @@
+
 import { CodeChefStat, CodeforcesStat, LeetCodeStat } from "@/types";
 import { toast } from "@/utils/toast";
 
@@ -14,8 +15,8 @@ const mockCodeChef: CodeChefStat = {
 };
 
 // Fallback LeetCode data when API fails
-const mockLeetCode: LeetCodeStat = {
-  username: 'lee215',
+const getDefaultLeetCodeData = (username: string): LeetCodeStat => ({
+  username: username,
   totalSolved: 2156,
   easySolved: 543,
   mediumSolved: 1087,
@@ -23,7 +24,7 @@ const mockLeetCode: LeetCodeStat = {
   acceptanceRate: 67.8,
   ranking: 42,
   streak: 365
-};
+});
 
 // Real Codeforces API implementation
 export const fetchCodeforcesStats = async (handle: string): Promise<CodeforcesStat> => {
@@ -110,7 +111,7 @@ export const fetchLeetCodeStats = async (username: string): Promise<LeetCodeStat
     if (!canReachLeetCode) {
       console.log('Cannot reach LeetCode.com, using mock data');
       toast.info(`Using demo data for LeetCode user ${username} (LeetCode site unavailable)`);
-      return { ...mockLeetCode, username };
+      return getDefaultLeetCodeData(username);
     }
     
     // LeetCode GraphQL query
@@ -161,7 +162,7 @@ export const fetchLeetCodeStats = async (username: string): Promise<LeetCodeStat
     if (!response || !response.ok) {
       console.warn('LeetCode API request failed, using mock data');
       toast.info(`Using demo data for LeetCode user ${username} (API unreachable)`);
-      return { ...mockLeetCode, username };
+      return getDefaultLeetCodeData(username);
     }
     
     const data = await response.json();
@@ -170,7 +171,7 @@ export const fetchLeetCodeStats = async (username: string): Promise<LeetCodeStat
       const errorMsg = data.errors ? data.errors[0].message : `User '${username}' not found`;
       console.warn(`LeetCode API error: ${errorMsg}`);
       toast.info(`Using demo data for ${username} (${errorMsg})`);
-      return { ...mockLeetCode, username };
+      return getDefaultLeetCodeData(username);
     }
     
     const matchedUser = data.data.matchedUser;
@@ -234,7 +235,7 @@ export const fetchLeetCodeStats = async (username: string): Promise<LeetCodeStat
     
     // Fallback to mock data in case of any error
     toast.info(`Using demo data for LeetCode user ${username}`);
-    return { ...mockLeetCode, username };
+    return getDefaultLeetCodeData(username);
   }
 };
 
